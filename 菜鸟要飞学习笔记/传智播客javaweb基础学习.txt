@@ -1,0 +1,23 @@
+传智播客  基础   视频复习
+2018.1.16
+servlet生命周期
+1.servlet实例化，初始化  2.服务请求   3销毁
+2.最常用实现方式：继承httpservlet，重写doget()和dopost()
+3.servlet自动加载：<load-on-startup>1</load-on-startup>  -----数值越小，优先级越高
+4.路径问题  绝对路径：以/开头  客户端绝对路径/web/demo1  服务端绝对路径/demo1(不需要写项目名)
+			相对路径：不能以/开头 
+5.servletConfig对象----和配置有关 
+6.servletContext对象----域对象（这个是重点）
+	一个web应用对应一个servletContext对象 
+	一个web应用下有多个servlet程序
+	一个web应用下的所有servlet程序共享同一个servletContext对象
+	
+	new FileInputStream("src/db.property")----这种是相对路径，如tomcat服务器，就是在tomcat/bin
+	读取资源文件（*****）
+	InputStream getResourceAsStream(String path)--通过文件的地址获取输入流
+	String getRealPath(String path)---通过文件的地址获取文件的绝对磁盘路径，如c:\tool\tomcat
+	
+7.last-modefied ----  控制缓存 	
+
+response对象
+1.客户端做出响应使用response对象
