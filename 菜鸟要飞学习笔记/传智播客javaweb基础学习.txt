@@ -21,3 +21,62 @@ servlet生命周期
 
 response对象
 1.客户端做出响应使用response对象
+	响应行
+		状态码：setStatus(304)
+	响应头
+		setHeader("aa","bb")
+		addHeader("bb","adsf");addHeader("bb","wew");
+	响应体
+		getOutputStream();--获得字节输出流 getWriter()--获得字符输出流
+
+	response对象案例
+	1.重定向  response.setRedirect("/sdsfs/sfds")--这个是response对象已经
+	封装好的方法     底层方法还是response.setStatus(302);response.setHeader("location",)
+	2.刷新页面
+	response.setHeader("refresh,"5;url=/aaa/sfdsf/index.html")--5秒后刷新跳转页面
+	效果等同于在页面上--<meta http-equiv="refresh" content="5;url=/day10/response/login.html">
+	3.禁用浏览器缓存
+	设置3个头信息
+	response.setHeader("Cache-Control","no-cache");response.setHeader("Pragma","no-cache");response.setDateHeader("Expires","0");
+	4.中文乱码
+		字节流乱码 response.setHeader("content-type","text/html;charset=UTF-8");"sdfsf".getBytes("UTF-8");
+		字符流乱码(response缓冲区的编码默认是iso-8859-1) response.setCharacterEncoding("UTF-8);response.setHeader("Content-Type","text/html;charset=UTF-8");
+		
+		上面语句可以总结写成：response.setContentType("text/html;charset=UTF-8");
+	5.下载
+		设置头信息 response.setHeader("content-disposition","attachement;filename=aaa.jpg")
+	6.实现验证码
+	
+request对象
+	getRemoteAddr();--获取ip地址，比如投票限制ip
+	getContextPath();--获取虚拟路径
+	
+	request请求乱码（request缓冲区乱码）
+		post请求--request.setCharacterEncoding("UTF-8")
+		get请求--1.修改tomact目录下的server.xml文件；2.比较常用 new String("sss".getBytes("ISO-8859-1"),"UTF-8")
+	重定向和请求转发
+		request.getRequestDispatcher("/get").forward(request, response);
+		response.sendRedirect("/day10/query")
+		request.getParamter()
+
+EL表达式
+	获取  域对象   的内容    ====> request.getAttritube
+
+会话
+	cookie
+	session
+
+JSP9个内置对象
+	requset     HttpservletRequest
+	response    HttpServletResponse
+	appliaction ServletContext
+	session     HttpSession
+	config      ServletConfig
+	
+	out         JspWriter
+	page        Object(基本上不用)
+	exception   Throwable（需要在页面先声明isErrorPage="true"，才能使用）
+	pageContext PagaContext(只在当前页面使用，范围比request还小；作用很大，可以获取其他8个对象，如getRequest())
+	
+4个域对象
+servletContext（整个Web应用）；request；session（一个会话）；pageContext	
