@@ -60,7 +60,7 @@ request对象
 		request.getParamter()
 
 EL表达式
-	获取  域对象   的内容    ====> request.getAttritube
+	获取  域对象   的内容    ====>   request.getAttritube
 
 会话
 	cookie
@@ -80,3 +80,23 @@ JSP9个内置对象
 	
 4个域对象
 servletContext（整个Web应用）；request；session（一个会话）；pageContext	
+
+javaBean
+定义：1.无参的构造方法 2.属性私有化 3.私有化属性要通过public类型暴露给其他程序
+
+配置全局的错误页面，在web.xml里配置
+<error-page>
+	<error-code>404</error-code>
+	<location>404.jsp</location>
+	
+	<error-code>500</error-code>
+	<location>500.jsp</location>
+</error-page>
+
+
+redis
+安装    1.下载stable版本  2.解压  3.make命令编译
+命令    操作各种类型的数据
+事务    比较鸡肋的功能，比较少用
+持久化  rdb和aof，rdb（数据快照），aof是记录操作的命令
+
