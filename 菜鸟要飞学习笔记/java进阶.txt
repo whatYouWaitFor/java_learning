@@ -1,0 +1,87 @@
+﻿客户端与服务器数据交换格式xml、json、html（json轻量，占宽带小，xml重量）
+通常互联网项目采用http+json（restful风格）；银行项目http+xml（webservice）
+json有2种结构 对象{key:value} 数组["java","c++","vb"]
+---------json与java对象互相转换复习
+
+解析xml   用dom4j和sax（适合解析大文件）
+
+java反射机制
+核心，要获取当前类的class文件（
+3种方式1.Class.forName("com.haha.User") 2.User.class 3.new User.getClass()）
+Class class1 = User.class; class1.newInstance();//调用user类的无参构造方法
+
+如何禁用java的反射机制-----将构造方法设置为private（但是也有api可以设置允许使用，springioc就是）
+
+springIOC原理：使用dom4j+java反射
+步骤1.读取xml文件  2.解析xml，遍历bean，获得类的全路径 3反射获得类，初始化类，赋值
+
+网络通讯
+http底层使用tcp协议进行连接
+Socket技术：二进制+IP+端口号
+upd面向无连接 tcp三次握手成功，才开始数据传输 ServerSocket
+
+//转换成string类型
+byte[] buf = new byte[1024];
+int len = intputStrean.read(buf);
+String str = new String(buf, 0, len);//这个是固定写法
+
+NIO 数据从通道(channel)读取到缓冲区(buffer)，从缓冲区写到通道
+缓冲Buffer    负责存储
+ByteBuffer是最常用的 put()存入数据到缓冲区  get()获取缓冲区数据 flip()开启读模式
+4个核心属性	position：缓冲区正在操作的位置 limit：缓冲区可以操作的数据大小 
+capacity缓冲区最大容量，声明后不能改变
+
+通道Channel    负责传输
+
+同步阻塞和同步非阻塞（阻塞只有在网络条件才出现，本地不会出现）
+最传统的IO也叫BIO，属于同步阻塞---服务器开启后，等待客户端发请求，就会一直阻塞
+用多线程概念（伪同步阻塞）--->多线程占用太多内存---->用线程池
+NIO，同步非阻塞
+
+Netty  开发大多用netty4
+长连接(移动端消息推送，MQ)，短连接(http协议)
+
+TCP协议
+粘包（如果基本上是同一时间发送，多个数据合成一个数据包）
+拆包
+防止粘包方法  1.消息定长 2.用特殊分隔符来区分比如：,
+
+序列化  将对象序列化成二级制形式（字节数组），用于网络传输和持久化
+反序列化  将二级制还原成对象
+
+SpringBoot 面试问的基本是很基本的东西，没什么东西问，一些api，常用的注解
+@EnableAutoConfiguration  让springboot进行spring框架的配置
+@ComponentScan
+@ControllerAdvice	@ExceptionHandler
+
+项目使用到多数据源
+利用分包（包名不同来区分）
+
+事务
+springboot集成事务，在方法上加上@Transactional即可
+
+分布式事务
+使用springboot+jta+atomikos来处理（适用于传统项目）
+---先建2个数据源，创建2个类读取数据源属性，创建2个类来管理，atomikos来管理
+
+springboot主流还是用yml比较多，用properties比较少了
+
+微服务架构与面向服务架构区别：
+面向服务架构（SOA）银行，企业级 xml格式传输 ESB服务 需要序列化和反序列化 重量级
+微服务架构 更加细分，http+json+restful 轻量级 
+
+SpringCloud-----一套微服务解决方案，RPC远程调用
+调用服务原理：其他服务先注册到注册中心，然后通过httpClient底层技术来调用
+
+ribbon负载均衡  原理  方案
+
+接口网关 原理
+
+分布式配置中心 原理
+
+面试题
+雪崩效应  微服务如何解决--hystrix 原理 熔断模式-再服务降级，隔离模式，限流模式
+springboot和springcloud区别：1springboot简化xml配置，自带tomcat容器，集成web组件springmvc
+springcloud 微服务框架，依赖springboot，用springmvc框架作为rpc接口调用
+
+Dubbo---分布式服务框架（远程服务调用的分布式框架）
