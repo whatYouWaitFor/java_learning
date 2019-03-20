@@ -1,4 +1,4 @@
-<form name="" action="" method="post" onsubmit="return run()">
+﻿<form name="" action="" method="post" onsubmit="return run()">
 
 </form>		
 
@@ -37,34 +37,7 @@ servlet：生命周期---创建实例>初始化>提供服务>销毁
 
 java基础，spring，hibernate，mybatis，struts，sql语句
 
-2018.3.1
-招聘要求：
-欧神诺陶瓷----禅城区季华四路33号创意产业园1号楼
-2、具有2年以上Java开发经验，独立编码能力强，具有系统软件架构设计经验优先； 
-3、精通Java语言和JavaEE平台开发，熟练运用各种框架，如Struts、Hibernate、SPRING、ibatis等； 
-4、熟悉Web 前端技术，能熟练运用AJAX框架，JQuery、ExtJS等，精通Json、XML格式数据分析技术； 
-5、熟悉ORACLE、MS SQLSERVER、DB2、Sybase、MYSQL其中两种以上的数据库维护、管理、存储过程编写、SQL开发，有较强的SQL编写能力；
 
-佛山市极加互动科技有限公司----佛山市禅城区季华二路火炬创业园A栋6楼
-1、2-4年以上使用Java语言进行WEB系统或APP接口开发的经验，有互联网平台开发经验者优先。
-2、熟悉spring、struts、ibatis及hibernate等技术框架，了解JVM调优者优先。
-3、熟悉JBoss、Tomcat、Nginx等中间件的使用和安装配置。
-4、熟悉MySQL数据库的使用，有MySQL集群搭建和使用经验者优先。
-5、对Redis等内存数据库和nosql数据库使用经验者优先考虑。
-6、对高并发处理有经验者优先。
-7、熟悉压力测试工具者优先。
-
-顺丰----佛山市南海区平洲昭信广场8楼
-1、大专以上学历，2年及研发工作经验，要求有独立完成软件项目开发经验；
-2、熟练掌握JAVA编程语言，能够用JAVA语言开发单独的项目（有微信开发经验优先）；
-3、熟悉数据库及存储过程的编写（Oracle或Mysql）；
-
-
-1、计算机相关专业，本科及以上学历；
-2、编程基础扎实，熟悉io、多线程、集合等基础框架；两年以上使用java及WEB应用软件开发经验；
-3、熟练使用spring 、iBatis、MVC等框架。精通jsp，servlet，java bean，JMS，Jdbc，对SOA的模式有较深的理解。 熟练使用关系型数据库，如mysql。对数据库有较强的设计能力，同时对数据库连接池的使用，线程池技术等较为熟悉者优先考虑；
-4、掌握javascript,html,css,jquery,熟练使用前端技术easyui、bootstrap者优先考虑；
-5、熟悉常用设计模式，有控件封装，系统架构者优先考虑；
 
 
 
