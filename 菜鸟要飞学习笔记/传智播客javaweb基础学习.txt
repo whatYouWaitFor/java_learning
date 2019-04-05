@@ -93,7 +93,6 @@ javaBean
 	<location>500.jsp</location>
 </error-page>
 
-
 redis
 安装    1.下载stable版本  2.解压  3.make命令编译
 命令    操作各种类型的数据
