@@ -1,4 +1,4 @@
-<form name="" action="" method="post" onsubmit="return run()">
+﻿<form name="" action="" method="post" onsubmit="return run()">
 
 </form>		
 
@@ -35,6 +35,7 @@ servlet：生命周期---创建实例>初始化>提供服务>销毁
 
 java基础，spring，hibernate，mybatis，struts，sql语句
 
+<<<<<<< HEAD
 2018.3.1
 招聘要求：
 
@@ -58,6 +59,9 @@ c顺丰----佛山市南海区平洲昭信广场8楼
 3、熟练使用spring 、iBatis、MVC等框架。精通jsp，servlet，java bean，JMS，Jdbc，对SOA的模式有较深的理解。 熟练使用关系型数据库，如mysql。对数据库有较强的设计能力，同时对数据库连接池的使用，线程池技术等较为熟悉者优先考虑；
 4、掌握javascript,html,css,jquery,熟练使用前端技术easyui、bootstrap者优先考虑；
 5、熟悉常用设计模式，有控件封装，系统架构者优先考虑；
+=======
+
+>>>>>>> e759efc463fe65244036a5c0a26f65a7391efeb8
 
 
 

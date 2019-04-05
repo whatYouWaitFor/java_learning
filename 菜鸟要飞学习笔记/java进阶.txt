@@ -1,0 +1,287 @@
+﻿DNS解析：将域名转换成ip地址(先去本地的host文件),本地没有，(外网)到网络宽带那边host解析
+
+Servlet生命周期
+构造方法(Servlet对象只实例化一次，单例)-->init-->service-->destroy
+--如成员变量，可能会有线程安全问题
+
+session
+--第一次创建session对象，会分配一个唯一的id，JSESSIONID。这个值就会发到浏览器保存，
+第二次访问会带着这个id访问(所以换浏览器，就找不到对应的session)
+
+Https：安全，多了一个ssl证书，效率比http慢，默认端口是4443
+
+Http1.0默认短连接  Http1.1默认长连接  响应头：connection:keep-alive
+长连接：现在网站默认长连接、rpc、netty、app消息推送
+短连接：调用不是特别频繁
+
+跨域问题：在ajax请求下，域名不一致
+1.后端设置response.setHeader("Access-Control-Allow-Origin","*") --支持所有网站
+2.jsonp，但是只支持get请求(前端页面设置)  原理：请求转换成script，请求脚本
+3.httpclient
+4.网关
+
+表单重复提交解决方案
+1.前端  点击后按钮变不可用
+2.token的思路，a先在后端访问页面的controller中生成token并存到session中 
+b转发到页面存到隐藏输入框里 c提交时带上并判断是否一致(处理完删除session里的token)
+
+解决模拟请求--使用token(唯一性)+验证码
+
+客户端与服务器数据交换格式xml、json、html（json轻量，占宽带小，xml重量）
+通常互联网项目采用http+json（restful风格）；银行项目http+xml（webservice）
+json有2种结构 对象{key:value} 数组["java","c++","vb"]
+---------json与java对象互相转换复习
+
+解析xml   用dom4j和sax（适合解析大文件）
+
+java反射机制
+核心，要获取当前类的class文件（
+3种方式1.Class.forName("com.haha.User") 2.User.class 3.new User.getClass()）
+Class class1 = User.class; class1.newInstance();//调用user类的无参构造方法
+
+如何禁用java的反射机制-----将构造方法设置为private（但是也有api可以设置允许使用，springioc就是）
+
+网络通讯
+http底层使用tcp协议进行连接
+Socket技术：二进制+IP+端口号
+upd面向无连接 tcp三次握手成功，才开始数据传输 ServerSocket   3次握手(建立连接)，4次挥手(断开连接)
+
+//转换成string类型
+byte[] buf = new byte[1024];
+int len = intputStrean.read(buf);
+String str = new String(buf, 0, len);//这个是固定写法
+
+NIO 数据从通道(channel)读取到缓冲区(buffer)，从缓冲区写到通道
+缓冲Buffer    负责存储
+ByteBuffer是最常用的 put()存入数据到缓冲区  get()获取缓冲区数据 flip()开启读模式
+4个核心属性	position：缓冲区正在操作的位置 limit：缓冲区可以操作的数据大小 
+capacity缓冲区最大容量，声明后不能改变
+
+通道Channel    负责传输
+
+同步阻塞和同步非阻塞（阻塞只有在网络条件才出现，本地不会出现）
+最传统的IO也叫BIO，属于同步阻塞---服务器开启后，等待客户端发请求，就会一直阻塞
+用多线程概念（伪同步阻塞）--->多线程占用太多内存---->用线程池
+NIO，同步非阻塞
+
+Netty  开发大多用netty4
+长连接(移动端消息推送，MQ)，短连接(http协议)
+
+TCP协议
+粘包（如果基本上是同一时间发送，多个数据合成一个数据包）
+拆包
+防止粘包方法  1.消息定长 2.用特殊分隔符来区分比如：,
+
+序列化  将对象序列化成二级制形式（字节数组），用于网络传输和持久化
+反序列化  将二级制还原成对象
+
+SpringBoot 面试问的基本是很基本的东西，没什么东西问，一些api，常用的注解
+@EnableAutoConfiguration  让springboot进行spring框架的配置
+@ComponentScan
+@ControllerAdvice	@ExceptionHandler
+
+项目使用到多数据源
+利用分包（包名不同来区分）
+
+事务
+springboot集成事务，在方法上加上@Transactional即可
+
+分布式事务
+使用springboot+jta+atomikos来处理（适用于传统项目）
+---先建2个数据源，创建2个类读取数据源属性，创建2个类来管理，atomikos来管理
+
+springboot主流还是用yml比较多，用properties比较少了
+
+微服务架构与面向服务架构区别：
+面向服务架构（SOA）银行，企业级 xml格式传输 ESB服务 需要序列化和反序列化 重量级
+微服务架构 更加细分，http+json+restful 轻量级 
+
+SpringCloud-----一套微服务解决方案，RPC远程调用
+调用服务原理：其他服务先注册到注册中心，然后通过httpClient底层技术来调用
+
+ribbon负载均衡  原理  方案
+
+路由网关 原理
+
+分布式配置中心 原理
+
+面试题
+雪崩效应  微服务如何解决--hystrix 原理 熔断模式-再服务降级，隔离模式，限流模式
+springboot和springcloud区别：1springboot简化xml配置，自带tomcat容器，集成web组件springmvc
+springcloud 微服务框架，依赖springboot，用springmvc框架作为rpc接口调用
+
+Dubbo---分布式服务框架（远程服务调用的分布式框架）
+
+dubbo-admin 服务治理
+
+JVM
+jvm面试题1 内存结构---最重要4个：方法区，堆，栈，本地方法栈
+jvm参数调优：1.减少垃圾回收机制次数 2.减少单次垃圾回收机制时间
+a.堆内存初始值与最大值保持一致，减少次数  b.设置新生代与老年代比例，1/3或者1/4比较好
+
+垃圾回收机制--不定时，清理堆内存不可达对象(是jvm里的一个进程)
+finalize() 在垃圾回收机制前调用的
+
+内存溢出：程序需要4g内存，但是系统只能给3g，满足不了需求，就产生内存溢出
+内存泄露：定义了很多静态变量或者new了对象，没被使用，但是还在被引用，gc无法回收
+(反正就是GC回收不了数据，导致内存浪费，内存泄露最终会导致内存溢出)
+防止内存泄露--1.像hashmap，arraylist等集合对象，被声明为static 
+				2.成员变量初始化时要置空 3.监听器不再使用要取消注册
+
+				
+垃圾回收机制算法
+1.引用计数法--垃圾回收时，如果对象被使用+1，不使用-1，为0时回收，默认15次
+2.标记清除法--先标记可达或不可达，再逐个删除不可达对象（这个不好，产生碎片）
+3.标记压缩法--在标记清除法基础上优化，把不可达压缩到一起再删（连续性，没碎片）
+4.复制算法--S0和S1区轮流清空，每次清除一个区的不可达对象，把可达对象复制到另一个区
+5.分代算法--分为新生代和老年代			
+--标记清除和标记压缩都是在老年代；复制算法在新生代				
+
+垃圾回收时会有停顿现象，因为所有线程会终止，防止又产生新的垃圾
+
+垃圾回收器 	串行回收期，并行回收期
+
+jvm调优总结：
+1.堆内存初始值和最大值越大，吞吐量越大（而且初始值最好和最大值一样）
+2.最好使用并行回收器，比串行吞吐量大，速度快
+3.新生代和老年代比例最好是1：2或者1：3
+4.减少GC对老年代的回收
+
+MySql优化（sql语句面试题，最难也就到分组，having）
+1.数据库设计合理（3范式 原子性、唯一性、不能字段冗余）
+2.添加索引（普通，主键，唯一，全文索引）---查询速度加快，但是会占用磁盘空间
+添加，删除操作也会变慢
+3.分库分表
+4.读写分离
+5.存储过程
+6.mysql最大连接数（修改my.ini文件）、mysql服务器升级、清理碎片化
+7.sql语句调优
+
+索引（经常要查询的字段建索引）	原理--B-tree树，折半、二分查找
+--缺点 生成索引文件，占用内存，增加、删除时索引文件需要更新
+
+SQL语句调优---先定位到哪些是慢查询语句
+1.使用索引（查询用得多，而且在where里作为条件，通常主键索引）
+2.like关键字， like '%aa%'--这样会全部扫描，如果要使用like，应该like'aa%'
+3.or关键字	只要其中一个没索引，就不用索引查询
+4.判断是否为null，用is null不要用= null(=null不用索引)
+5. >=101 、>100 不要用>=这样会扫描2次
+
+mysql存储引擎 都支持b树数据结构，缓存
+innodb（用得多）--事务机制，行锁定
+myisam--批量添加效率高，表锁定，支持全部检索（因为）
+memory
+企业开发中，挺少建主外键根据主外键来，但是用hibernate需要，要建关联关系
+
+主从复制--主服务器（读写） 从服务器（读）
+1.先分别在两台机器安装数据库 2.在my.conf配置主从服务器id，开启日志文件(二进制sql执行文件)
+3.从服务器还要加多一行同步的数据库 binlog_do_db=test
+4.主服务器给从服务器做远程连接账号授权 5.在从服务器中添加复制功能
+
+读写分离--通常用中间件来实现
+1.配置server.xml 2.配置schema.xml  3.配置rule.xml
+
+MyBatis--ORM框架
+Hibernate通过对象   MyBatis通过sql语句
+SQL注入问题--sql拼接产生的，通过预编译解决
+
+Spring--对象交给容器管理，不用我们来new
+springIOC原理：使用dom4j解析xml文件+java反射
+步骤1.读取xml文件  2.解析xml，遍历bean，获得类的全路径 3反射获得类，初始化类，赋值
+
+spring的bean对象默认是单例singleton
+
+springioc 作用：创建对象和处理对象的依赖关系
+创建对象--1.调用无参构造器 2.有参构造器 3.工厂创建对象（静态或非静态）
+依赖注入--1.通过构造函数 2.set方法注入 3.p名称空间 4.注解(通常是这种方式)
+	@Autowire默认是按照类型装配bean(这个注解属于spring) @Resource按名称装配，这个属于j2ee1.6出现的
+	
+代理模式--作用类似于中介
+静态代理：需要生成代理类
+动态代理：不需要生成代理类---jdk动态代理(反射机制) cglib动态代理(字节码)
+
+AOP--面向切面(一种思想)  使用场景：权限控制、事务管理、日志
+SpringAOP--cglib和jdk动态代理综合使用
+每个bean实例化前经过AbstractAutoProxyCreator的postProcessAfterInitialization()
+
+事务--原理：aop编程+环绕通知+异常通知
+ACID--原子性(最小单元(方法)所有操作要么全部成功过，要么全部失败回滚);
+一致性、隔离性(并发产生的事务互不影响)、持久性
+分类---编程事务(手动事务)、声明事务(xml或注解)
+
+7种事务传播行为
+常用4种：1.REQUIRED--当前事务就合并在一起(合并为同一个事务)，如果当前没事务，
+就新建一个(最常见)  2.REQUIRED_NEW--自己新建另一个事务，如果当前有事务，挂起当前事务 
+3.SUPPORTS--当前有事务就合并在一起，没有事务就以非事务执行
+4.NOT_SUPPORTED--非事务方式执行，如果当前有事务，挂起
+
+Bean的生命周期
+1.实例化(new对象) 2.初始化属性(属性注入到bean) 3.调用定制一些的初始化方法
+4.bean就可以提供服务 5.销毁(web项目一般不会主动去销毁(刚启动spring会
+很慢就是去生成bean)，服务器关闭会销毁)
+
+springMVC--核心   对Servlet进行了包装
+流程(原理)客户端请求-->DispatcherServlet-->HandlerMapping(交给handlermapping
+根据配置，注解找到具体的处理器)-->HandlerAdapter(调用合适Controller)-->
+ModelAndView(后端逻辑处理完返回Modelandview)-->最后视图解析，渲染返回到对应的视图
+
+jVM内置缓存(存放在jvm缓存中(声明为static)，关闭jvm才消失)
+--缺点	占用内存，容易内存溢出，线程安全问题，多服务器数据不能共享
+oscache(针对数据库访问，mybatis默认二级缓存) 
+ehcache(针对jsp页面缓存，hiberante默认二级缓存)
+
+jvm缓存和nosql：最大区别就不能共享session数据
+
+关系型数据	mysql、oracle、sqlserver--持久化、主外键、sql语句，存放在硬盘上
+nosql(非关系型数据库或缓存数据库)--值放在内存中(跟jvm内置缓存类似)
+--特征：存储在内存中、key，value存放，分布式多服务器能共享数据，效率高
+
+Redis	减轻数据库压力(查内存快)
+应该场景：token生产、session共享、分布式锁、自增id、验证码
+5中基本类型：string、set(集合)、list(列表)、hash(散列)、zset(有序集合)
+语法string：set string111 redis;get string111   
+list:lpush list11 redis(插入到列表头部);lrange list11 0 10(获取指定范围内的元素)
+set(无序，不能重复结合):sadd set11 redis;smembers set11
+zset(有序，不能重复集合):zadd zset11 1 redis;zadd zset11 2 mongodb;zrange zset11 0 10 WITHSCORES
+hash():hmset hash11 name redis;hgetall hash11
+
+redis存对象--用string类型  json格式
+
+Redis高可用机制(容错机制)
+主从复制机制(根据快照文件同步)--作用：数据备份、读写分离、集群、宕机容错	只能一个主数据库
+	在从服务器的redis.conf修改下文件就行	
+持久化机制
+rdb redis默认，在一段时间内数据有一定数量才存储，有可能发生数据丢失    
+aof实时存储(一般用这种多)
+哨兵机制
+	主服务器挂了，在从服务器投票选举一台作为主服务器
+	(如果全部都宕机，用keepalived脚本来监听，自动重启(一直重启不成功，发邮件通知))
+事务	MULTI 开始一个事务	EXEC 提交事务
+
+ActiveMq
+消息中间件  解决高并发、异步通讯、两种通讯方式：点对点、发布/订阅
+消息模型  1.点对点通讯方式：生产者-->消息队列-->消费者(一对一)  队列可以持久化
+2.发布订阅 生产者-->主题-->消费者(一对多)  场景不多，通常是用第三方推送
+
+保证JMS可靠消息
+--重试机制后，不能会重复消费(通过全局id)
+	分为带事务和不带事务--里面各有自动签收和手动签收
+	
+ActiveMq如果消费者抛出异常，默认自动重试	
+
+分布式事务产生原因 --跨数据库，跨服务
+
+分布式事务解决方案
+2pc(两段提交协议) 、3pc(三段提交协议)、TCC、MQ(补偿机制、重试机制)、其他补偿方式(回调)
+
+CAP理论 数据一致性、服务可用性、分区容错
+Base理论(柔性事务)  基本可用、软状态、最终一致性
+ACID为刚性事务
+
+LCN框架 原理
+
+
+事务隔离级别  串行化>可重复读(mysql默认)>读已提交>读未提交
+未提交读(脏读)，没隔离好，一个事务处理过程中读取到另一个未提交的事务的数据
+不可重复读  当前事务读取了前一事务提交的数据，两次结果不一样
+
