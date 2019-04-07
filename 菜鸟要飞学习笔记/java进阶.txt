@@ -1,4 +1,64 @@
-﻿DNS解析：将域名转换成ip地址(先去本地的host文件),本地没有，(外网)到网络宽带那边host解析
+﻿多线程
+实现多线程2种方式：1.继承Thread  2.实现Runable接口  java不支持多继承，扩展性没那么好
+
+sleep()--睡眠一段时间(进入阻塞状态)，不会释放锁
+wait()--wait()要和nofity()配套使用，属于Object类，会释放锁(锁是对象级)，而且一定要在
+synchronized中使用
+
+join()--通常用于主线程内，作用是：等待其他线程完成再自行main主线程(内部其实使用wait(*)实现)
+yield()--线程让步，暂停当前线程，回到可运行态(让步的线程可能会再次获得资源)
+
+jdk1.5后  增加Lock接口，提供synchronized类似的同步功能
+	区别：1.一个是关键字;ReentrantLock是实现类，需要手动获取，释放锁
+		  2.lock可以设置获得锁的等待时间，避免死锁，而synchronized会一直等
+
+ThreadLocal：线程局部变量(只在自己线程里，能实现线程安全,这里与synchronized区别是，不存在多线程情况)
+	用法  要调用protect Object initialValue(){}  线程第1次调用get()或set(),会只执行1次
+	原理  map.set(Thread.currentThread, value) 代码内部ThreadLocal.ThreadLocalMap把数据隔离
+
+容器(集合)与并发包
+集合：Collection和Map
+List  有序集合，可以包含重复元素，可以存多个null，按索引访问方式  
+Set	  不能包含重复元素，只能有一个null值
+Map 不能包含重复key
+HashMap和HashTable区别：1.HashTable同步HashMap非同步 2.HashMap继承AbstractMap，HashTable继承Dictionary
+	3.HashMap可以有一个null作为key，多个null为value;而HashTable的key、value都不能为null
+
+同步集合类  HashTable，Vector，Stack都加了synchronized，
+	还有同步包装器：Collections.synchronizedMap(),Collections.synchronizedList()(原理：内部对每一个方法加了同步锁)
+
+并发集合 jdk1.5后
+	ConcurrentHashMap	原理:拆分成多个小的HashTable,
+	分段锁(最多16段，每一段就是一个小的HashTable)，减少锁的资源竞争
+
+其他并发包
+CountDownLatch 实现如：主线程需要等待5个子线程执行完再执行  
+	new CountDownLatch(5);  countDownLatch.countDown();//每次减一  countDownLatch.await();//countDown结果为0，阻塞状态变运行状态	
+CyclicBarrier  等全部线程到达后才执行 cycli.await();//所有线程到达后唤醒所有的等待线程
+Semaphore  设置一个阈值，如5，就是最多5个线程同时访问。第6个线程会被阻塞
+semp.availablePermits();//当起可用资源数量 semp.acquire();//申请资源 semp.release();//释放资源
+
+并发队列 首先是队列，继承Collection
+ConcurrentLinkedQueue 基于链接节点的无界线程安全队列，先进先出，适用于高并发的队列，无锁的方式，性能比BlockingQueue好
+BlockingQueue 阻塞队列   ----通常用于生产者，消费者场景	
+	new ArrayBlockingQueue<String>(3)   有界，指定大小后，不能改变
+	new LinkedBlockingQueue<String>(3)  有界，指定3就是3容量大小，不指定，就是int.max_value大小
+	
+线程池
+Executor接口  4种创建方式,如Executors.newCachedThreadPool();
+
+锁机制
+悲观锁，乐观锁
+重入锁(递归锁)   外部代码获得锁，内层代码会自动获得这把锁  synchronized和 ReentrantLock就是重入锁
+				非重入锁：外层代码获得一把锁，内层代码获得另一把锁  就有可能死锁
+读写锁	ReentrantReadWriteLock jdk1.5的并发包已包含读写锁   只要出现有写的操作，就会上锁，只能有一个线程去写。读的话可以多个线程同时操作
+CAS无锁机制	利用乐观锁思想，认为自己能完成操作。多个线程操作同一个变量，只有一个会成功，其余都失败，失败线程会被告知，可再次尝试
+			三个参数V：要更新的变量 E：预期值 N：新值  当V=E，N=V，返回N;当V不等于E，当前线程什么都不做，返回V
+自旋锁	
+
+Java内存模型---  参见java基础.doc文档	原子性、可见性、有序性
+	
+DNS解析：将域名转换成ip地址(先去本地的host文件),本地没有，(外网)到网络宽带那边host解析
 
 Servlet生命周期
 构造方法(Servlet对象只实例化一次，单例)-->init-->service-->destroy
