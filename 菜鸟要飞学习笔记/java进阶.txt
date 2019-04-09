@@ -19,7 +19,7 @@ ThreadLocal：线程局部变量(只在自己线程里，能实现线程安全,�
 容器(集合)与并发包
 集合：Collection和Map
 List  有序集合，可以包含重复元素，可以存多个null，按索引访问方式  
-Set	  不能包含重复元素，只能有一个null值
+Set	  无序，不能包含重复元素，只能有一个null值
 Map 不能包含重复key
 HashMap和HashTable区别：1.HashTable同步HashMap非同步 2.HashMap继承AbstractMap，HashTable继承Dictionary
 	3.HashMap可以有一个null作为key，多个null为value;而HashTable的key、value都不能为null
